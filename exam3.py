@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import sqlite3
+import operator
 
 conn = sqlite3.connect('trackdb.sqlite')
 cur = conn.cursor()
@@ -94,11 +95,12 @@ for entry in all:
     conn.commit()
 
 
+print "Counts of Genre:"
 genreStr = 'SELECT genre FROM Genre'
-temp = [i[0] for i in cur.execute(genreStr)]
-unic = {u for u in temp}
-data_dict = {x: temp.count(x) for x in unic}
+each = [i[0] for i in cur.execute(genreStr)]
+data_dict = {x: each.count(x) for x in each}
 sorted_val = sorted(data_dict.items(), key=operator.itemgetter(1))
+
 for val in sorted_val[::-1]:
     print val[0], val[1]
 
